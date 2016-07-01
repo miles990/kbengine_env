@@ -3,7 +3,7 @@ FROM centos:7
 MAINTAINER AlexLee <alexlee7171@gmail.com>
 
 RUN yum update -y
-RUN yum install -y gcc gcc-c++ openssl-devel mariadb-devel git make wget unzip
+RUN yum install -y gcc gcc-c++ openssl-devel mariadb-devel git make wget unzip tmux
 
 # Add Source Code
 ADD kbengine /kbengine
