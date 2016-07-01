@@ -5,8 +5,10 @@ MAINTAINER AlexLee <alexlee7171@gmail.com>
 RUN yum update -y
 RUN yum install -y gcc gcc-c++ openssl-devel mariadb-devel git make wget unzip tmux
 
-# Add Source Code
+# Add Source Code and Demo folder(kbengine_cocos2d_js_demo)
 ADD kbengine /kbengine
+
+ADD kbengine_cocos2d_js_demo/kbengine_demos_assets /kbengine/kbengine_demos_assets
 
 RUN chmod -R 777 /kbengine
 
@@ -14,26 +16,29 @@ WORKDIR /kbengine/kbe/src
 
 RUN make
 
-# Get Demo assets
-WORKDIR /kbengine
-
-RUN git clone https://github.com/kbengine/kbengine_cocos2d_js_demo.git
-
-WORKDIR /kbengine/kbengine_cocos2d_js_demo
-RUN git submodule update --init --remote
-
-RUN chmod -R 777 /kbengine/kbengine_cocos2d_js_demo && \
-	cp -a /kbengine/kbengine_cocos2d_js_demo/kbengine_demos_assets /kbengine
-
-RUN cd /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client/; python -m SimpleHTTPServer 80; python -m http.server 80
-
-WORKDIR /kbengine/kbengine_demos_assets
-
 # Create user : kbe
 RUN groupadd -r kbe && useradd -r -g kbe kbe
 
 USER kbe
 
-# RUN /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client/; python -m SimpleHTTPServer 80; python -m http.server 80
-# CMD ["./start_server.sh"]
+WORKDIR /
 
+# RUN cd /kbengine/kbengine_demos_assets;
+RUN touch start.sh && \
+	echo '#!/bin/sh' >> start.sh && \
+	echo 'cd /kbengine/kbengine_demos_assets' >> start.sh && \
+	echo './start_server.sh &' >> start.sh && \
+	chmod 777 start.sh
+
+USER root
+
+RUN touch start_http.sh && \
+	echo '#!/bin/sh' >> start_http.sh && \	
+	echo 'cd /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client' >> start_http.sh && \
+	echo 'python -m SimpleHTTPServer 80' >> start_http.sh && \
+	echo 'python -m http.server 80' >> start_http.sh && \
+	chmod 777 start_http.sh
+
+# docker run --rm -it miles990/kbengine_env start.sh
+
+EXPOSE 80
