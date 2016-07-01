@@ -19,18 +19,12 @@ RUN make
 # Create user : kbe
 RUN groupadd -r kbe && useradd -r -g kbe kbe
 
-USER kbe
-
-WORKDIR /
-
 # RUN cd /kbengine/kbengine_demos_assets;
 RUN touch start.sh && \
 	echo '#!/bin/sh' >> start.sh && \
 	echo 'cd /kbengine/kbengine_demos_assets' >> start.sh && \
 	echo './start_server.sh &' >> start.sh && \
 	chmod 777 start.sh
-
-USER root
 
 RUN touch start_http.sh && \
 	echo '#!/bin/sh' >> start_http.sh && \	
@@ -39,6 +33,8 @@ RUN touch start_http.sh && \
 	echo 'python -m http.server 80' >> start_http.sh && \
 	chmod 777 start_http.sh
 
-# docker run --rm -it miles990/kbengine_env start.sh
+# docker run --rm -it miles990/kbengine_env /bin/sh 
+# start.sh(kbe user)
+# start_http.sh(root user)
 
 EXPOSE 80
