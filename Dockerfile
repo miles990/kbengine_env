@@ -17,7 +17,11 @@ WORKDIR /kbengine
 
 RUN git clone https://github.com/kbengine/kbengine_demos_assets.git
 
+RUN chmod -R 755 /kbengine/kbengine_demos_assets
+
 WORKDIR /kbengine/kbengine_demos_assets
+
+RUN groupadd -r kbe && useradd -r -g kbe kbe
 
 # CMD ["./start_server.sh"]
 
