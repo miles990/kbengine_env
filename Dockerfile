@@ -34,5 +34,6 @@ RUN groupadd -r kbe && useradd -r -g kbe kbe
 
 USER kbe
 
+# RUN /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client/; python -m SimpleHTTPServer 80; python -m http.server 80
 # CMD ["./start_server.sh"]
 
