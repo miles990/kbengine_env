@@ -8,6 +8,8 @@ RUN yum install -y gcc gcc-c++ openssl-devel mariadb-devel git make wget unzip t
 # Add Source Code and Demo folder(kbengine_cocos2d_js_demo)
 ADD kbengine /kbengine
 
+ADD kbengine_cocos2d_js_demo /kbengine/kbengine_cocos2d_js_demo
+
 ADD kbengine_cocos2d_js_demo/kbengine_demos_assets /kbengine/kbengine_demos_assets
 
 RUN chmod -R 777 /kbengine
