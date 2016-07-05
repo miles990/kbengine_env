@@ -28,7 +28,7 @@ RUN groupadd -r kbe && useradd -r -g kbe kbe
 
 WORKDIR /kbengine/kbengine_demos_assets
 
-RUN star_server.sh
+RUN start_server.sh
 
 WORKDIR /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client
 
