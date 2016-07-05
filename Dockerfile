@@ -12,31 +12,27 @@ ADD kbengine_cocos2d_js_demo /kbengine/kbengine_cocos2d_js_demo
 
 ADD kbengine_cocos2d_js_demo/kbengine_demos_assets /kbengine/kbengine_demos_assets
 
+ADD kbengine_defs.xml /kbengine/kbe/res/server/kbengine_defs.xml
+
 RUN chmod -R 777 /kbengine
 
 WORKDIR /kbengine/kbe/src
 
 RUN make
 
+# Define mountable directories.
+VOLUME ["/kbengine"]
+
 # Create user : kbe
 RUN groupadd -r kbe && useradd -r -g kbe kbe
 
-# RUN cd /kbengine/kbengine_demos_assets;
-RUN touch start.sh && \
-	echo '#!/bin/sh' >> start.sh && \
-	echo 'cd /kbengine/kbengine_demos_assets' >> start.sh && \
-	echo './start_server.sh &' >> start.sh && \
-	chmod 777 start.sh
+WORKDIR /kbengine/kbengine_demos_assets
 
-RUN touch start_http.sh && \
-	echo '#!/bin/sh' >> start_http.sh && \	
-	echo 'cd /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client' >> start_http.sh && \
-	echo 'python -m SimpleHTTPServer 80' >> start_http.sh && \
-	echo 'python -m http.server 80' >> start_http.sh && \
-	chmod 777 start_http.sh
+RUN star_server.sh
 
-# docker run --rm -it miles990/kbengine_env /bin/sh 
-# start.sh(kbe user)
-# start_http.sh(root user)
+WORKDIR /kbengine/kbengine_cocos2d_js_demo/cocos2d-js-client
+
+CMD ["python", "-m", "SimpleHTTPServer", "80"]
 
 EXPOSE 80
+EXPOSE 20013
