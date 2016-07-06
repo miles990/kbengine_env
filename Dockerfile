@@ -5,12 +5,13 @@ MAINTAINER AlexLee <alexlee7171@gmail.com>
 RUN yum update -y
 RUN yum install -y gcc gcc-c++ openssl-devel mariadb-devel git make wget unzip tmux
 
-# Add Source Code and Demo folder(kbengine_cocos2d_js_demo)
-ADD kbengine /kbengine
+# Download Source Code
+RUN git clone https://github.com/kbengine/kbengine.git
 
-ADD kbengine_cocos2d_js_demo /kbengine/kbengine_cocos2d_js_demo
-
-ADD kbengine_cocos2d_js_demo/kbengine_demos_assets /kbengine/kbengine_demos_assets
+# Download Demo Code
+RUN cd kbengine && git clone https://github.com/kbengine/kbengine_cocos2d_js_demo.git && \
+	cd kbengine_cocos2d_js_demo && git submodule update --init --remote && \
+	cp -a kbengine_demos_assets ../
 
 ADD kbengine_defs.xml /kbengine/kbe/res/server/kbengine_defs.xml
 
