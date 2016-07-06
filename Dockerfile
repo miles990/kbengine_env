@@ -9,9 +9,9 @@ RUN yum install -y gcc gcc-c++ openssl-devel mariadb-devel git make wget unzip t
 RUN git clone https://github.com/kbengine/kbengine.git
 
 # Download Demo Code
-RUN cd kbengine && git clone https://github.com/kbengine/kbengine_cocos2d_js_demo.git && \
-	cd kbengine_cocos2d_js_demo && git submodule update --init --remote && \
-	cp -a kbengine_demos_assets ../
+RUN cd /kbengine && git clone https://github.com/kbengine/kbengine_cocos2d_js_demo.git && \
+	cd /kbengine/kbengine_cocos2d_js_demo && git submodule update --init --remote && \
+	cp -a /kbengine/kbengine_cocos2d_js_demo/kbengine_demos_assets /kbengine
 
 ADD kbengine_defs.xml /kbengine/kbe/res/server/kbengine_defs.xml
 
